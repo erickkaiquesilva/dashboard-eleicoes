@@ -6,28 +6,70 @@ type AvailableLeader =
       candidateNumber: string;
       officialName: string;
       votes: number;
+      percentage: string;
     }
   | {
       status: "tie";
       candidateNumbers: string[];
+      candidates: Array<{
+        candidateNumber: string;
+        officialName: string;
+      }>;
       votes: number;
     };
 
-type RoundResult =
+export type RoundResult =
   | {
       status: "available";
+      candidates: Record<
+        "13" | "22",
+        {
+          votes: number;
+          percentage: string;
+          officialName: string;
+        }
+      >;
+      validVotes: number;
+      turnout: {
+        votes: number;
+        percentage: string;
+      };
       leader: AvailableLeader;
+      source: SourceRecord;
+    }
+  | {
+      status: "unavailable";
+      reason: string;
+      source: SourceRecord;
+    };
+
+type Variation =
+  | {
+      status: "available";
+      hundredths: number;
+      percentagePoints: string;
+      direction: "subiu" | "caiu" | "ficou igual";
     }
   | {
       status: "unavailable";
       reason: string;
     };
 
-type PlaceResult = {
+export type SourceRecord = {
+  url: string;
+  idg: string;
+  dg: string;
+  hg: string;
+  sha256: string;
+};
+
+export type PlaceResult = {
   rounds: Record<RoundNumber, RoundResult>;
+  variation: Record<"13" | "22", Variation>;
 };
 
 export type ElectionSnapshot = {
+  generatedAt: string;
   places: Record<string, PlaceResult>;
 };
 

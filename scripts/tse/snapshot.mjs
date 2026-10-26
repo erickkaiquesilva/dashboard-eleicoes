@@ -189,6 +189,33 @@ export function deriveRound(record) {
     return unavailableRound(leader.reason, source);
   }
 
+  let enrichedLeader;
+  if (leader.status === "leader") {
+    const leaderCandidate = candidates.find(
+      (candidate) => candidate.n === leader.candidateNumber,
+    );
+    if (!isTsePercentage(leaderCandidate?.pvap)) {
+      return unavailableRound("leader-percentage-missing", source);
+    }
+    enrichedLeader = {
+      ...leader,
+      percentage: leaderCandidate.pvap,
+    };
+  } else {
+    enrichedLeader = {
+      ...leader,
+      candidates: leader.candidateNumbers.map((candidateNumber) => {
+        const candidate = candidates.find(
+          (item) => item.n === candidateNumber,
+        );
+        return {
+          candidateNumber,
+          officialName: candidate.nmu,
+        };
+      }),
+    };
+  }
+
   return {
     status: "available",
     candidates: Object.fromEntries(
@@ -206,7 +233,7 @@ export function deriveRound(record) {
       votes: Number(payload.e.c),
       percentage: payload.e.pc,
     },
-    leader,
+    leader: enrichedLeader,
     source,
   };
 }

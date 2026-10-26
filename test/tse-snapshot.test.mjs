@@ -181,6 +181,10 @@ test("coleta valida exatamente Brasil e 27 UFs nos dois turnos", async () => {
   const snapshot = buildSnapshot(records, "2026-10-26T00:00:00.000Z");
   assert.equal(Object.keys(snapshot.places).length, 28);
   assert.equal(snapshot.places.br.rounds["1"].status, "available");
+  assert.equal(
+    snapshot.places.br.rounds["1"].leader.percentage,
+    "47,03",
+  );
   assert.equal(snapshot.places.br.variation["13"].hundredths, 663);
 });
 

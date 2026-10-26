@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-26T19:32:04.799Z",
+  "generatedAt": "2026-10-26T19:45:00.787Z",
   "elections": {
     "1": {
       "id": "6257",
@@ -45,7 +45,8 @@
             "status": "leader",
             "candidateNumber": "22",
             "officialName": "FLAVIO BOLSONARO",
-            "votes": 56104503
+            "votes": 56104503,
+            "percentage": "47,03"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6257/dados/br/br-c0001-e006257-u.json",
@@ -78,7 +79,8 @@
             "status": "leader",
             "candidateNumber": "13",
             "officialName": "LULA",
-            "votes": 64256232
+            "votes": 64256232,
+            "percentage": "51,79"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6258/dados/br/br-c0001-e006258-u.json",
@@ -129,7 +131,8 @@
             "status": "leader",
             "candidateNumber": "22",
             "officialName": "FLAVIO BOLSONARO",
-            "votes": 302807
+            "votes": 302807,
+            "percentage": "64,56"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6257/dados/ac/ac-c0001-e006257-u.json",
@@ -162,7 +165,8 @@
             "status": "leader",
             "candidateNumber": "22",
             "officialName": "FLAVIO BOLSONARO",
-            "votes": 287715
+            "votes": 287715,
+            "percentage": "66,57"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6258/dados/ac/ac-c0001-e006258-u.json",
@@ -213,7 +217,8 @@
             "status": "leader",
             "candidateNumber": "13",
             "officialName": "LULA",
-            "votes": 995459
+            "votes": 995459,
+            "percentage": "54,73"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6257/dados/al/al-c0001-e006257-u.json",
@@ -246,7 +251,8 @@
             "status": "leader",
             "candidateNumber": "13",
             "officialName": "LULA",
-            "votes": 1152621
+            "votes": 1152621,
+            "percentage": "60,77"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6258/dados/al/al-c0001-e006258-u.json",
@@ -297,7 +303,8 @@
             "status": "leader",
             "candidateNumber": "13",
             "officialName": "LULA",
-            "votes": 212503
+            "votes": 212503,
+            "percentage": "45,71"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6257/dados/ap/ap-c0001-e006257-u.json",
@@ -330,7 +337,8 @@
             "status": "leader",
             "candidateNumber": "13",
             "officialName": "LULA",
-            "votes": 222968
+            "votes": 222968,
+            "percentage": "52,88"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6258/dados/ap/ap-c0001-e006258-u.json",
@@ -381,7 +389,8 @@
             "status": "leader",
             "candidateNumber": "13",
             "officialName": "LULA",
-            "votes": 1046996
+            "votes": 1046996,
+            "percentage": "48,23"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6257/dados/am/am-c0001-e006257-u.json",
@@ -414,7 +423,8 @@
             "status": "leader",
             "candidateNumber": "13",
             "officialName": "LULA",
-            "votes": 1145783
+            "votes": 1145783,
+            "percentage": "54,02"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6258/dados/am/am-c0001-e006258-u.json",
@@ -465,7 +475,8 @@
             "status": "leader",
             "candidateNumber": "13",
             "officialName": "LULA",
-            "votes": 5664771
+            "votes": 5664771,
+            "percentage": "66,17"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6257/dados/ba/ba-c0001-e006257-u.json",
@@ -498,7 +509,8 @@
             "status": "leader",
             "candidateNumber": "13",
             "officialName": "LULA",
-            "votes": 6485258
+            "votes": 6485258,
+            "percentage": "71,31"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6258/dados/ba/ba-c0001-e006258-u.json",
@@ -549,7 +561,8 @@
             "status": "leader",
             "candidateNumber": "13",
             "officialName": "LULA",
-            "votes": 3555263
+            "votes": 3555263,
+            "percentage": "63,29"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6257/dados/ce/ce-c0001-e006257-u.json",
@@ -582,7 +595,8 @@
             "status": "leader",
             "candidateNumber": "13",
             "officialName": "LULA",
-            "votes": 4036124
+            "votes": 4036124,
+            "percentage": "68,93"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6258/dados/ce/ce-c0001-e006258-u.json",
@@ -633,7 +647,8 @@
             "status": "leader",
             "candidateNumber": "22",
             "officialName": "FLAVIO BOLSONARO",
-            "votes": 909616
+            "votes": 909616,
+            "percentage": "51,31"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6257/dados/df/df-c0001-e006257-u.json",
@@ -666,7 +681,8 @@
             "status": "leader",
             "candidateNumber": "22",
             "officialName": "FLAVIO BOLSONARO",
-            "votes": 979542
+            "votes": 979542,
+            "percentage": "54,28"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6258/dados/df/df-c0001-e006258-u.json",
@@ -717,7 +733,8 @@
             "status": "leader",
             "candidateNumber": "22",
             "officialName": "FLAVIO BOLSONARO",
-            "votes": 1233194
+            "votes": 1233194,
+            "percentage": "54,78"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6257/dados/es/es-c0001-e006257-u.json",
@@ -750,7 +767,8 @@
             "status": "leader",
             "candidateNumber": "22",
             "officialName": "FLAVIO BOLSONARO",
-            "votes": 1294504
+            "votes": 1294504,
+            "percentage": "56,37"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6258/dados/es/es-c0001-e006258-u.json",
@@ -801,7 +819,8 @@
             "status": "leader",
             "candidateNumber": "22",
             "officialName": "FLAVIO BOLSONARO",
-            "votes": 2051888
+            "votes": 2051888,
+            "percentage": "53,60"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6257/dados/go/go-c0001-e006257-u.json",
@@ -834,7 +853,8 @@
             "status": "leader",
             "candidateNumber": "22",
             "officialName": "FLAVIO BOLSONARO",
-            "votes": 2345334
+            "votes": 2345334,
+            "percentage": "59,66"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6258/dados/go/go-c0001-e006258-u.json",
@@ -885,7 +905,8 @@
             "status": "leader",
             "candidateNumber": "13",
             "officialName": "LULA",
-            "votes": 2566301
+            "votes": 2566301,
+            "percentage": "63,99"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6257/dados/ma/ma-c0001-e006257-u.json",
@@ -918,7 +939,8 @@
             "status": "leader",
             "candidateNumber": "13",
             "officialName": "LULA",
-            "votes": 2808231
+            "votes": 2808231,
+            "percentage": "69,54"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6258/dados/ma/ma-c0001-e006258-u.json",
@@ -969,7 +991,8 @@
             "status": "leader",
             "candidateNumber": "22",
             "officialName": "FLAVIO BOLSONARO",
-            "votes": 1298581
+            "votes": 1298581,
+            "percentage": "65,15"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6257/dados/mt/mt-c0001-e006257-u.json",
@@ -1002,7 +1025,8 @@
             "status": "leader",
             "candidateNumber": "22",
             "officialName": "FLAVIO BOLSONARO",
-            "votes": 1351099
+            "votes": 1351099,
+            "percentage": "66,06"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6258/dados/mt/mt-c0001-e006258-u.json",
@@ -1053,7 +1077,8 @@
             "status": "leader",
             "candidateNumber": "22",
             "officialName": "FLAVIO BOLSONARO",
-            "votes": 873351
+            "votes": 873351,
+            "percentage": "58,60"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6257/dados/ms/ms-c0001-e006257-u.json",
@@ -1086,7 +1111,8 @@
             "status": "leader",
             "candidateNumber": "22",
             "officialName": "FLAVIO BOLSONARO",
-            "votes": 927892
+            "votes": 927892,
+            "percentage": "59,60"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6258/dados/ms/ms-c0001-e006258-u.json",
@@ -1137,7 +1163,8 @@
             "status": "leader",
             "candidateNumber": "22",
             "officialName": "FLAVIO BOLSONARO",
-            "votes": 5777548
+            "votes": 5777548,
+            "percentage": "48,24"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6257/dados/mg/mg-c0001-e006257-u.json",
@@ -1170,7 +1197,8 @@
             "status": "leader",
             "candidateNumber": "13",
             "officialName": "LULA",
-            "votes": 6351099
+            "votes": 6351099,
+            "percentage": "50,43"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6258/dados/mg/mg-c0001-e006258-u.json",
@@ -1221,7 +1249,8 @@
             "status": "leader",
             "candidateNumber": "13",
             "officialName": "LULA",
-            "votes": 2427237
+            "votes": 2427237,
+            "percentage": "49,91"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6257/dados/pa/pa-c0001-e006257-u.json",
@@ -1254,7 +1283,8 @@
             "status": "leader",
             "candidateNumber": "13",
             "officialName": "LULA",
-            "votes": 2690449
+            "votes": 2690449,
+            "percentage": "55,02"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6258/dados/pa/pa-c0001-e006258-u.json",
@@ -1305,7 +1335,8 @@
             "status": "leader",
             "candidateNumber": "13",
             "officialName": "LULA",
-            "votes": 1541127
+            "votes": 1541127,
+            "percentage": "61,31"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6257/dados/pb/pb-c0001-e006257-u.json",
@@ -1338,7 +1369,8 @@
             "status": "leader",
             "candidateNumber": "13",
             "officialName": "LULA",
-            "votes": 1794059
+            "votes": 1794059,
+            "percentage": "67,46"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6258/dados/pb/pb-c0001-e006258-u.json",
@@ -1389,7 +1421,8 @@
             "status": "leader",
             "candidateNumber": "22",
             "officialName": "FLAVIO BOLSONARO",
-            "votes": 3945345
+            "votes": 3945345,
+            "percentage": "59,91"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6257/dados/pr/pr-c0001-e006257-u.json",
@@ -1422,7 +1455,8 @@
             "status": "leader",
             "candidateNumber": "22",
             "officialName": "FLAVIO BOLSONARO",
-            "votes": 4291444
+            "votes": 4291444,
+            "percentage": "62,58"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6258/dados/pr/pr-c0001-e006258-u.json",
@@ -1473,7 +1507,8 @@
             "status": "leader",
             "candidateNumber": "13",
             "officialName": "LULA",
-            "votes": 3553971
+            "votes": 3553971,
+            "percentage": "63,45"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6257/dados/pe/pe-c0001-e006257-u.json",
@@ -1506,7 +1541,8 @@
             "status": "leader",
             "candidateNumber": "13",
             "officialName": "LULA",
-            "votes": 4117513
+            "votes": 4117513,
+            "percentage": "69,20"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6258/dados/pe/pe-c0001-e006258-u.json",
@@ -1557,7 +1593,8 @@
             "status": "leader",
             "candidateNumber": "13",
             "officialName": "LULA",
-            "votes": 1523710
+            "votes": 1523710,
+            "percentage": "70,99"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6257/dados/pi/pi-c0001-e006257-u.json",
@@ -1590,7 +1627,8 @@
             "status": "leader",
             "candidateNumber": "13",
             "officialName": "LULA",
-            "votes": 1653989
+            "votes": 1653989,
+            "percentage": "75,88"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6258/dados/pi/pi-c0001-e006258-u.json",
@@ -1641,7 +1679,8 @@
             "status": "leader",
             "candidateNumber": "22",
             "officialName": "FLAVIO BOLSONARO",
-            "votes": 4966844
+            "votes": 4966844,
+            "percentage": "53,01"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6257/dados/rj/rj-c0001-e006257-u.json",
@@ -1674,7 +1713,8 @@
             "status": "leader",
             "candidateNumber": "22",
             "officialName": "FLAVIO BOLSONARO",
-            "votes": 5169033
+            "votes": 5169033,
+            "percentage": "53,10"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6258/dados/rj/rj-c0001-e006258-u.json",
@@ -1725,7 +1765,8 @@
             "status": "leader",
             "candidateNumber": "13",
             "officialName": "LULA",
-            "votes": 1237963
+            "votes": 1237963,
+            "percentage": "59,75"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6257/dados/rn/rn-c0001-e006257-u.json",
@@ -1758,7 +1799,8 @@
             "status": "leader",
             "candidateNumber": "13",
             "officialName": "LULA",
-            "votes": 1413596
+            "votes": 1413596,
+            "percentage": "65,72"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6258/dados/rn/rn-c0001-e006258-u.json",
@@ -1809,7 +1851,8 @@
             "status": "leader",
             "candidateNumber": "22",
             "officialName": "FLAVIO BOLSONARO",
-            "votes": 3573783
+            "votes": 3573783,
+            "percentage": "55,64"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6257/dados/rs/rs-c0001-e006257-u.json",
@@ -1842,7 +1885,8 @@
             "status": "leader",
             "candidateNumber": "22",
             "officialName": "FLAVIO BOLSONARO",
-            "votes": 3874378
+            "votes": 3874378,
+            "percentage": "57,84"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6258/dados/rs/rs-c0001-e006258-u.json",
@@ -1893,7 +1937,8 @@
             "status": "leader",
             "candidateNumber": "22",
             "officialName": "FLAVIO BOLSONARO",
-            "votes": 652988
+            "votes": 652988,
+            "percentage": "67,45"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6257/dados/ro/ro-c0001-e006257-u.json",
@@ -1926,7 +1971,8 @@
             "status": "leader",
             "candidateNumber": "22",
             "officialName": "FLAVIO BOLSONARO",
-            "votes": 674382
+            "votes": 674382,
+            "percentage": "69,61"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6258/dados/ro/ro-c0001-e006258-u.json",
@@ -1977,7 +2023,8 @@
             "status": "leader",
             "candidateNumber": "22",
             "officialName": "FLAVIO BOLSONARO",
-            "votes": 231322
+            "votes": 231322,
+            "percentage": "71,06"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6257/dados/rr/rr-c0001-e006257-u.json",
@@ -2010,7 +2057,8 @@
             "status": "leader",
             "candidateNumber": "22",
             "officialName": "FLAVIO BOLSONARO",
-            "votes": 219675
+            "votes": 219675,
+            "percentage": "72,46"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6258/dados/rr/rr-c0001-e006258-u.json",
@@ -2061,7 +2109,8 @@
             "status": "leader",
             "candidateNumber": "22",
             "officialName": "FLAVIO BOLSONARO",
-            "votes": 3000020
+            "votes": 3000020,
+            "percentage": "66,65"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6257/dados/sc/sc-c0001-e006257-u.json",
@@ -2094,7 +2143,8 @@
             "status": "leader",
             "candidateNumber": "22",
             "officialName": "FLAVIO BOLSONARO",
-            "votes": 3220071
+            "votes": 3220071,
+            "percentage": "69,42"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6258/dados/sc/sc-c0001-e006258-u.json",
@@ -2145,7 +2195,8 @@
             "status": "leader",
             "candidateNumber": "22",
             "officialName": "FLAVIO BOLSONARO",
-            "votes": 12922023
+            "votes": 12922023,
+            "percentage": "51,93"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6257/dados/sp/sp-c0001-e006257-u.json",
@@ -2178,7 +2229,8 @@
             "status": "leader",
             "candidateNumber": "22",
             "officialName": "FLAVIO BOLSONARO",
-            "votes": 14139178
+            "votes": 14139178,
+            "percentage": "53,85"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6258/dados/sp/sp-c0001-e006258-u.json",
@@ -2229,7 +2281,8 @@
             "status": "leader",
             "candidateNumber": "13",
             "officialName": "LULA",
-            "votes": 856019
+            "votes": 856019,
+            "percentage": "62,75"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6257/dados/se/se-c0001-e006257-u.json",
@@ -2262,7 +2315,8 @@
             "status": "leader",
             "candidateNumber": "13",
             "officialName": "LULA",
-            "votes": 989041
+            "votes": 989041,
+            "percentage": "69,53"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6258/dados/se/se-c0001-e006258-u.json",
@@ -2313,7 +2367,8 @@
             "status": "leader",
             "candidateNumber": "22",
             "officialName": "FLAVIO BOLSONARO",
-            "votes": 469321
+            "votes": 469321,
+            "percentage": "50,44"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6257/dados/to/to-c0001-e006257-u.json",
@@ -2346,7 +2401,8 @@
             "status": "leader",
             "candidateNumber": "22",
             "officialName": "FLAVIO BOLSONARO",
-            "votes": 467916
+            "votes": 467916,
+            "percentage": "51,37"
           },
           "source": {
             "url": "https://resultados.tse.jus.br/oficial/ele2026/6258/dados/to/to-c0001-e006258-u.json",

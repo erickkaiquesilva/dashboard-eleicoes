@@ -1,0 +1,125 @@
+{
+  "readDate": "2026-10-26",
+  "sourcePage": "https://www.tse.jus.br/eleicoes/eleicoes-2026-content/propostas-de-governo-dos-candidatos-ao-cargo-de-presidente-da-republica-eleicoes-2026-segundo-turno",
+  "openDataArchive": "https://cdn.tse.jus.br/estatistica/sead/odsele/proposta_governo/proposta_governo_2026_BR.zip",
+  "candidates": {
+    "13": {
+      "name": "Lula",
+      "party": "PT",
+      "number": "13",
+      "documentTitle": "DIRETRIZES PARA O PROGRAMA DE TRANSFORMAÇÃO DO BRASIL: UM PAÍS SOBERANO, DEMOCRÁTICO, DESENVOLVIDO, SUSTENTÁVEL E CRIATIVO",
+      "pdfUrl": "https://www.tse.jus.br/eleicoes/eleicoes-2026-content/arquivos/proposta-pt/@@display-file/file/proposta-pt.pdf",
+      "openDataFile": "BR/2026BR280002542548_01.pdf",
+      "sha256": "e1c162c20c81dafadf69b10bab230b5a6dc48f6b6c27c2cfce853b131a8bcc36",
+      "headings": [
+        {
+          "title": "1. FORTALECER A DEMOCRACIA, A PARTICIPAÇÃO SOCIAL E MODERNIZAR O ESTADO",
+          "page": 15
+        },
+        {
+          "title": "2. COMBATER AS DESIGUALDADES",
+          "page": 18
+        },
+        {
+          "title": "3. PROTEGER A VIDA COM UMA SEGURANÇA PÚBLICA MAIS EFICIENTE E INTEGRADA",
+          "page": 26
+        },
+        {
+          "title": "4. GARANTIR O DIREITO À EDUCAÇÃO PARA TRANSFORMAR VIDAS E O PAÍS",
+          "page": 30
+        },
+        {
+          "title": "5. FORTALECER A SAÚDE COM EQUIDADE, INOVAÇÃO E SOBERANIA",
+          "page": 34
+        },
+        {
+          "title": "6. AMPLIAR O ACESSO À CULTURA E AO ESPORTE COMO VETORES DE TRANSFORMAÇÃO SOCIAL",
+          "page": 40
+        },
+        {
+          "title": "7. FORTALECER O DIREITO À CIDADE",
+          "page": 44
+        },
+        {
+          "title": "8. PROMOVER UMA ECONOMIA MAIS SUSTENTÁVEL, PRODUTIVA E DIGITAL, PARA TODAS E TODOS",
+          "page": 47
+        },
+        {
+          "title": "9. SEGURANÇA ALIMENTAR E PRODUÇÃO AGRÍCOLA",
+          "page": 58
+        },
+        {
+          "title": "10. AMPLIAR A SEGURANÇA ENERGÉTICA E LIDERAR A TRANSIÇÃO PARA UMA ECONOMIA DE BAIXO CARBONO",
+          "page": 63
+        },
+        {
+          "title": "11. PROMOVER A SUSTENTABILIDADE AMBIENTAL E CLIMÁTICA",
+          "page": 69
+        },
+        {
+          "title": "12. VALORIZAR O TRABALHO EM SUAS MÚLTIPLAS FORMAS",
+          "page": 73
+        },
+        {
+          "title": "13. DEFENDER A SOBERANIA NACIONAL E O PROTAGONISMO INTERNACIONAL DO BRASIL",
+          "page": 77
+        }
+      ]
+    },
+    "22": {
+      "name": "Flávio Bolsonaro",
+      "party": "PL",
+      "number": "22",
+      "documentTitle": "DIRETRIZES — PLANO DE GOVERNO FLÁVIO BOLSONARO 2027–2030",
+      "pdfUrl": "https://www.tse.jus.br/eleicoes/eleicoes-2026-content/arquivos/proposta-pl/@@display-file/file/proposta-pl.pdf",
+      "openDataFile": "BR/2026BR280002551544_01.pdf",
+      "sha256": "7d1d95075e11e3c4113e8dcd502438049a34f5147a84cb0f746bf59046e477a4",
+      "headings": [
+        {
+          "title": "UM NOVO CAMINHO",
+          "page": 12
+        },
+        {
+          "title": "BRASIL SEM MEDO",
+          "page": 13
+        },
+        {
+          "title": "BRASIL POR ELAS",
+          "page": 17
+        },
+        {
+          "title": "BRASIL SEM FILA",
+          "page": 23
+        },
+        {
+          "title": "BRASIL MAIS BARATO",
+          "page": 29
+        },
+        {
+          "title": "BRASIL QUE PREPARA",
+          "page": 34
+        },
+        {
+          "title": "BRASIL QUE PROSPERA",
+          "page": 42
+        },
+        {
+          "title": "BRASIL QUE CRESCE",
+          "page": 49
+        },
+        {
+          "title": "BRASIL QUE CUMPRE A CONSTITUIÇÃO",
+          "page": 65
+        },
+        {
+          "title": "BRASIL QUE NÃO VOLTA ATRÁS",
+          "page": 68
+        },
+        {
+          "title": "CONCLUSÃO: UM CONVITE À NAÇÃO (O BRASIL VAI VENCER)",
+          "page": 74
+        }
+      ]
+    }
+  }
+}

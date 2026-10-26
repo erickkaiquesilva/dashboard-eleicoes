@@ -50,31 +50,56 @@ function readGeometry(): Geometry {
   };
 }
 
-function Ring({ data }: { data: string }) {
+function Ring({ code, data }: { code: string; data: string }) {
+  const maskId = `state-ring-outside-${code}`;
+
   return (
-    <g aria-hidden="true" className="state-ring">
-      <path
-        d={data}
-        fill="none"
-        stroke="#1D1D1F"
-        strokeWidth="12"
-        vectorEffect="non-scaling-stroke"
-      />
-      <path
-        d={data}
-        fill="none"
-        stroke="#FFDF00"
-        strokeWidth="8"
-        vectorEffect="non-scaling-stroke"
-      />
-      <path
-        d={data}
-        fill="none"
-        stroke="#F5F5F7"
-        strokeWidth="4"
-        vectorEffect="non-scaling-stroke"
-      />
-    </g>
+    <>
+      <mask
+        id={maskId}
+        maskUnits="userSpaceOnUse"
+        x="-2000000"
+        y="-2000000"
+        width="4000000"
+        height="4000000"
+      >
+        <rect
+          x="-2000000"
+          y="-2000000"
+          width="4000000"
+          height="4000000"
+          fill="white"
+        />
+        <path d={data} fill="black" />
+      </mask>
+      <g
+        aria-hidden="true"
+        className="state-ring"
+        mask={`url(#${maskId})`}
+      >
+        <path
+          d={data}
+          fill="none"
+          stroke="#1D1D1F"
+          strokeWidth="12"
+          vectorEffect="non-scaling-stroke"
+        />
+        <path
+          d={data}
+          fill="none"
+          stroke="#FFDF00"
+          strokeWidth="8"
+          vectorEffect="non-scaling-stroke"
+        />
+        <path
+          d={data}
+          fill="none"
+          stroke="#F5F5F7"
+          strokeWidth="4"
+          vectorEffect="non-scaling-stroke"
+        />
+      </g>
+    </>
   );
 }
 
@@ -134,7 +159,7 @@ export function BrazilMap({
 
         {geometry.paths.map(({ code, data }) =>
           activeCodes.has(code) ? (
-            <Ring data={data} key={`ring-${code}`} />
+            <Ring code={code} data={data} key={`ring-${code}`} />
           ) : null,
         )}
 

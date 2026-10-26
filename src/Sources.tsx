@@ -1,0 +1,121 @@
+import plans from "../data/government-plans.json";
+import { STATES, type ElectionSnapshot, type RoundNumber } from "./map-model";
+
+const IBGE_URL =
+  "https://servicodados.ibge.gov.br/api/v4/malhas/paises/BR?intrarregiao=UF&qualidade=minima&formato=image/svg+xml";
+const PLACE_ORDER = [
+  { code: "br", name: "Brasil" },
+  ...STATES.map((state) => ({
+    code: state.abbreviation.toLowerCase(),
+    name: state.name,
+  })),
+];
+const PLAN_READ_DATE = plans.readDate.split("-").reverse().join("/");
+
+function roundName(round: RoundNumber) {
+  return round === "1" ? "1º turno" : "2º turno";
+}
+
+export function Sources({ snapshot }: { snapshot: ElectionSnapshot }) {
+  return (
+    <section className="content-section sources-section" id="fontes" aria-labelledby="sources-title">
+      <div className="section-heading">
+        <p className="eyebrow">Transparência</p>
+        <h2 id="sources-title">Fontes</h2>
+        <p>
+          O mapa e o painel usam o snapshot dos resultados oficiais. As
+          propostas apontam para os documentos registrados no TSE.
+        </p>
+      </div>
+
+      <div className="source-groups">
+        <article>
+          <h3>Mapa e painel</h3>
+          <p>
+            Resultados por lugar publicados pelo TSE e gravados no snapshot em{" "}
+            {new Intl.DateTimeFormat("pt-BR", {
+              dateStyle: "long",
+              timeStyle: "short",
+            }).format(new Date(snapshot.generatedAt))}
+            .
+          </p>
+          {(["1", "2"] as const).map((round) => (
+            <details key={round}>
+              <summary>
+                Arquivos do {roundName(round)} · 28 lugares
+              </summary>
+              <ul className="file-list">
+                {PLACE_ORDER.map(({ code, name }) => {
+                  const result = snapshot.places[code].rounds[round];
+                  return (
+                    <li key={code}>
+                      <a
+                        href={result.source.url}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        {name}
+                      </a>
+                      <span>
+                        Arquivo de {result.source.dg}, {result.source.hg} · ID{" "}
+                        {result.source.idg}
+                      </span>
+                      <code>SHA-256 {result.source.sha256}</code>
+                    </li>
+                  );
+                })}
+              </ul>
+            </details>
+          ))}
+        </article>
+
+        <article>
+          <h3>Contorno do mapa</h3>
+          <p>
+            <a href={IBGE_URL} target="_blank" rel="noreferrer">
+              Malha das unidades da federação, qualidade mínima — IBGE
+            </a>
+            . Arquivo lido em 26/10/2026 e incluído no site; o navegador não
+            consulta o IBGE.
+          </p>
+        </article>
+
+        <article>
+          <h3>Planos de governo</h3>
+          <p>
+            <a href={plans.sourcePage} target="_blank" rel="noreferrer">
+              Página de propostas do 2º turno — TSE
+            </a>
+            , consultada em {PLAN_READ_DATE}.
+          </p>
+          <ul className="plan-source-list">
+            {(["13", "22"] as const).map((number) => {
+              const candidate = plans.candidates[number];
+              return (
+                <li key={number}>
+                  <a
+                    href={candidate.pdfUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    PDF de {candidate.name}
+                  </a>
+                  <code>SHA-256 {candidate.sha256}</code>
+                </li>
+              );
+            })}
+          </ul>
+          <p>
+            Cópias conferidas no{" "}
+            <a href={plans.openDataArchive}>arquivo aberto oficial do TSE</a>.
+          </p>
+        </article>
+      </div>
+
+      <p className="minister-note">
+        Nomes de ministros não constam do material oficial usado aqui; por
+        isso, não há uma lista de equipe nesta página.
+      </p>
+    </section>
+  );
+}
