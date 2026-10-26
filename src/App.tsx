@@ -1,18 +1,26 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import plans from "../data/government-plans.json";
 import snapshotJson from "../data/tse-presidential-results.json";
 import { BrazilMap } from "./BrazilMap";
+import { MunicipalMap } from "./MunicipalMap";
+import { MunicipalitySearch } from "./MunicipalitySearch";
 import {
   INKS,
   STATES,
   hasOtherLeader,
   type ElectionSnapshot,
 } from "./map-model";
+import {
+  displayMunicipalityName,
+  hasOtherMunicipalLeader,
+} from "./municipal-model";
+import { summarizeMunicipalities } from "./municipal-rules.mjs";
 import { Proposals } from "./Proposals";
 import { ResultsPanel } from "./ResultsPanel";
 import { parsePath, pathFor, type PageRoute } from "./route";
 import { Sources } from "./Sources";
+import { useMunicipalData } from "./useMunicipalData";
 
 const snapshot = snapshotJson as ElectionSnapshot;
 
@@ -40,6 +48,32 @@ export default function App() {
   const selectedName = STATES.find(
     (state) => state.abbreviation === selectedState,
   )?.name;
+  const stateUf = selectedState?.toLowerCase() ?? null;
+  const municipalLoad = useMunicipalData(stateUf);
+  const municipalData =
+    municipalLoad.status === "success"
+      ? municipalLoad.loaded.data
+      : undefined;
+  const municipalGeometry =
+    municipalLoad.status === "success"
+      ? municipalLoad.loaded.geometry
+      : undefined;
+  const selectedMunicipality =
+    route.municipality && municipalData
+      ? municipalData.municipalities.find(
+          (municipality) => municipality.slug === route.municipality,
+        ) ?? null
+      : null;
+  const selectedMunicipalityName = selectedMunicipality
+    ? displayMunicipalityName(selectedMunicipality.name)
+    : undefined;
+  const municipalSummary = useMemo(
+    () =>
+      municipalData
+        ? summarizeMunicipalities(municipalData.municipalities)
+        : undefined,
+    [municipalData],
+  );
 
   useEffect(() => {
     const current = parsePath(window.location.pathname);
@@ -60,19 +94,42 @@ export default function App() {
   }, []);
 
   useEffect(() => {
+    if (
+      !route.municipality ||
+      municipalLoad.status !== "success" ||
+      selectedMunicipality
+    ) {
+      return;
+    }
+    const stateRoute: PageRoute = {
+      place: route.place,
+      round: route.round,
+    };
+    window.history.replaceState(null, "", pathFor(stateRoute));
+    setRoute(stateRoute);
+  }, [
+    municipalLoad.status,
+    route.municipality,
+    route.place,
+    route.round,
+    selectedMunicipality,
+  ]);
+
+  useEffect(() => {
     const place =
-      route.place === "br"
+      selectedMunicipalityName ??
+      (route.place === "br"
         ? "Brasil"
         : route.place === "zz"
           ? "Exterior"
         : STATES.find(
             (state) =>
               state.abbreviation.toLowerCase() === route.place,
-          )?.name;
+          )?.name);
     document.title = `${place ?? "Brasil"} · ${
       route.round === "1" ? "1º turno" : "2º turno"
     } · Eleição 2026`;
-  }, [route]);
+  }, [route, selectedMunicipalityName]);
 
   function navigate(next: PageRoute, focusPanel = false) {
     const nextPath = pathFor(next);
@@ -145,28 +202,134 @@ export default function App() {
       <section className="map-section" aria-labelledby="section-title">
         <div className="stage">
           <div className="map-column">
+            {selectedState && selectedName && (
+              <nav className="breadcrumb" aria-label="Navegação por lugar">
+                <ol>
+                  <li>
+                    <a
+                      href={pathFor({ place: "br", round: route.round })}
+                      onClick={(event) => {
+                        event.preventDefault();
+                        navigate({ place: "br", round: route.round });
+                      }}
+                    >
+                      Brasil
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href={pathFor({
+                        place: route.place,
+                        round: route.round,
+                      })}
+                      aria-current={
+                        selectedMunicipality ? undefined : "page"
+                      }
+                      onClick={(event) => {
+                        event.preventDefault();
+                        navigate({
+                          place: route.place,
+                          round: route.round,
+                        });
+                      }}
+                    >
+                      {selectedName}
+                    </a>
+                  </li>
+                  {selectedMunicipality && (
+                    <li>
+                      <a
+                        href={pathFor(route)}
+                        aria-current="page"
+                        onClick={(event) => {
+                          event.preventDefault();
+                          navigate(route);
+                        }}
+                      >
+                        {selectedMunicipalityName}
+                      </a>
+                    </li>
+                  )}
+                </ol>
+              </nav>
+            )}
+
             <div className="map-heading">
-              <h2 id="section-title">Mapa do Brasil</h2>
+              <h2 id="section-title">
+                {selectedName
+                  ? `Municípios de ${selectedName}`
+                  : "Mapa do Brasil"}
+              </h2>
               <p>
                 Quem ficou à frente no{" "}
                 {route.round === "1" ? "1º turno" : "2º turno"}.
               </p>
             </div>
-            <div className="map-frame">
-              <BrazilMap
-                snapshot={snapshot}
-                round={route.round}
-                selectedState={selectedState}
-                onSelectState={(abbreviation) =>
+
+            {municipalData && (
+              <MunicipalitySearch
+                municipalities={municipalData.municipalities}
+                selectedMunicipality={selectedMunicipality}
+                onSelectMunicipality={(municipality) =>
                   navigate(
                     {
-                      place: abbreviation.toLowerCase(),
-                      round: route.round,
+                      ...route,
+                      municipality: municipality.slug,
                     },
                     true,
                   )
                 }
               />
+            )}
+
+            <div className="map-frame">
+              {selectedName ? (
+                municipalLoad.status === "loading" ? (
+                  <div className="map-load-state" role="status">
+                    <span className="loading-indicator" aria-hidden="true" />
+                    Carregando os municípios de {selectedName}…
+                  </div>
+                ) : municipalLoad.status === "error" ? (
+                  <div className="map-load-state map-load-error" role="alert">
+                    <strong>Não foi possível carregar o mapa municipal.</strong>
+                    <span>
+                      O total de {selectedName} continua disponível no painel.
+                    </span>
+                  </div>
+                ) : municipalData && municipalGeometry ? (
+                  <MunicipalMap
+                    data={municipalData}
+                    geometry={municipalGeometry}
+                    round={route.round}
+                    selectedMunicipality={selectedMunicipality}
+                    stateName={selectedName}
+                    onSelectMunicipality={(municipality) =>
+                      navigate(
+                        {
+                          ...route,
+                          municipality: municipality.slug,
+                        },
+                        true,
+                      )
+                    }
+                  />
+                ) : null
+              ) : (
+                <BrazilMap
+                  snapshot={snapshot}
+                  round={route.round}
+                  selectedState={selectedState}
+                  onSelectState={(abbreviation) =>
+                    navigate(
+                      {
+                        place: abbreviation.toLowerCase(),
+                        round: route.round,
+                      },
+                      true,
+                    )
+                  }
+                />
+              )}
             </div>
 
             <div className="map-key" aria-label="Legenda do mapa">
@@ -176,12 +339,16 @@ export default function App() {
                 <LegendItem color={INKS.flavio}>
                   Flávio Bolsonaro
                 </LegendItem>
-                {hasOtherLeader(snapshot, route.round) && (
+                {(municipalData
+                  ? hasOtherMunicipalLeader(municipalData, route.round)
+                  : hasOtherLeader(snapshot, route.round)) && (
                   <LegendItem color={INKS.other}>Outro candidato</LegendItem>
                 )}
               </ul>
               <p className="selection-status" aria-live="polite">
-                {selectedName
+                {selectedMunicipality
+                  ? `Município selecionado: ${selectedMunicipalityName}.`
+                  : selectedName
                   ? `Unidade selecionada: ${selectedName}.`
                   : route.place === "zz"
                     ? "Exterior selecionado."
@@ -193,8 +360,19 @@ export default function App() {
           <ResultsPanel
             ref={panelHeadingRef}
             placeCode={route.place}
-            place={snapshot.places[route.place]}
+            place={
+              selectedMunicipality ?? snapshot.places[route.place]
+            }
+            displayName={selectedMunicipalityName}
             activeRound={route.round}
+            municipalSummary={
+              selectedState && !selectedMunicipality
+                ? municipalSummary
+                : undefined
+            }
+            officialResultUrl={
+              selectedMunicipality?.rounds[route.round].source.url
+            }
             onSelectExterior={() =>
               navigate({ place: "zz", round: route.round }, true)
             }
@@ -203,7 +381,7 @@ export default function App() {
       </section>
 
       <Proposals />
-      <Sources snapshot={snapshot} />
+      <Sources snapshot={snapshot} municipalData={municipalData} />
 
       <footer>
         <p>

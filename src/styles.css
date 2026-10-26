@@ -158,6 +158,31 @@ a {
   min-width: 0;
 }
 
+.breadcrumb {
+  margin-bottom: 22px;
+}
+
+.breadcrumb ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.84rem;
+  font-weight: 650;
+}
+
+.breadcrumb li:not(:last-child)::after {
+  content: "›";
+  margin-left: 7px;
+  color: #6e6e73;
+}
+
+.breadcrumb a[aria-current="page"] {
+  text-decoration: none;
+}
+
 .map-heading h2,
 .section-heading h2 {
   margin: 0;
@@ -178,6 +203,41 @@ a {
   padding: 24px 18px 18px;
 }
 
+.map-load-state {
+  display: flex;
+  min-height: 360px;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  text-align: center;
+  font-weight: 650;
+}
+
+.map-load-error {
+  flex-direction: column;
+}
+
+.map-load-error span {
+  max-width: 380px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.loading-indicator {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #d2d2d7;
+  border-top-color: #1d1d1f;
+  border-radius: 50%;
+  animation: loading-rotation 0.8s linear infinite;
+}
+
+@keyframes loading-rotation {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
 .map-svg {
   display: block;
   width: 100%;
@@ -192,6 +252,85 @@ a {
 
 .state-ring {
   pointer-events: none;
+}
+
+.municipality-pointer-target {
+  cursor: pointer;
+}
+
+.municipality-search {
+  margin-top: 24px;
+}
+
+.municipality-search > label {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.combobox-shell {
+  position: relative;
+}
+
+.combobox-shell input {
+  width: 100%;
+  min-height: 46px;
+  border: 1px solid #86868b;
+  border-radius: 10px;
+  padding: 10px 13px;
+  color: #1d1d1f;
+  background: #fff;
+  font: inherit;
+}
+
+.combobox-shell input:focus-visible {
+  outline: 3px solid #1d1d1f;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px #ffdf00;
+}
+
+.combobox-shell ul {
+  position: absolute;
+  z-index: 4;
+  top: calc(100% + 5px);
+  right: 0;
+  left: 0;
+  max-height: 260px;
+  margin: 0;
+  overflow-y: auto;
+  padding: 5px;
+  border: 1px solid #86868b;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 12px 30px rgb(0 0 0 / 16%);
+  list-style: none;
+}
+
+.combobox-shell li {
+  margin: 0;
+}
+
+.combobox-shell [role="option"] {
+  display: block;
+  width: 100%;
+  border: 0;
+  border-radius: 7px;
+  padding: 10px;
+  color: #1d1d1f;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.combobox-shell [role="option"][aria-selected="true"] {
+  background: #e8e8ed;
+}
+
+.search-result-count {
+  margin: 7px 0 0;
+  color: #6e6e73;
+  font-size: 0.78rem;
 }
 
 .map-key {
@@ -282,6 +421,32 @@ a {
   letter-spacing: 0.01em;
 }
 
+.municipal-summary {
+  padding: 18px 0;
+  border-top: 1px solid #d2d2d7;
+  border-bottom: 1px solid #d2d2d7;
+}
+
+.municipal-summary-round + .municipal-summary-round {
+  margin-top: 18px;
+}
+
+.municipal-summary h4 {
+  margin: 0 0 5px;
+  font-size: 0.83rem;
+}
+
+.municipal-summary p {
+  margin: 5px 0 0;
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
+.municipal-summary .swap-summary {
+  margin-top: 18px;
+  font-weight: 700;
+}
+
 .candidate-bars {
   display: grid;
   gap: 24px;
@@ -353,6 +518,12 @@ a {
 .source-jump {
   display: inline-block;
   margin-top: 26px;
+  font-weight: 650;
+}
+
+.official-result-link {
+  display: block;
+  margin-top: 24px;
   font-weight: 650;
 }
 
@@ -461,7 +632,8 @@ summary {
 }
 
 .file-list,
-.plan-source-list {
+.plan-source-list,
+.municipal-source-list {
   margin: 0;
   padding: 0 0 16px;
   list-style: none;
@@ -474,20 +646,23 @@ summary {
 }
 
 .file-list li,
-.plan-source-list li {
+.plan-source-list li,
+.municipal-source-list li {
   min-width: 0;
 }
 
 .file-list a,
 .file-list span,
 .file-list code,
-.plan-source-list code {
+.plan-source-list code,
+.municipal-source-list code {
   display: block;
 }
 
 .file-list span,
 .file-list code,
-.plan-source-list code {
+.plan-source-list code,
+.municipal-source-list code {
   margin-top: 4px;
   font-size: 0.72rem;
 }
@@ -500,6 +675,22 @@ code {
   display: flex;
   gap: 24px;
   margin-top: 12px;
+}
+
+.municipal-source-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.municipal-source-list a,
+.municipal-source-list code {
+  display: block;
+}
+
+.url-pattern {
+  display: block;
+  margin-top: 8px;
 }
 
 .minister-note {
@@ -591,5 +782,9 @@ footer p {
   *::before,
   *::after {
     scroll-behavior: auto !important;
+  }
+
+  .loading-indicator {
+    animation: none;
   }
 }

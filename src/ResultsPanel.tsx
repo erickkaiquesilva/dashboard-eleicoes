@@ -11,12 +11,19 @@ import {
   type RoundNumber,
   type RoundResult,
 } from "./map-model";
+import type {
+  MunicipalRoundSummary,
+  MunicipalSummary,
+} from "./municipal-rules.mjs";
 
 type ResultsPanelProps = {
   placeCode: string;
   place: PlaceResult;
   activeRound: RoundNumber;
   onSelectExterior: () => void;
+  displayName?: string;
+  municipalSummary?: MunicipalSummary;
+  officialResultUrl?: string;
 };
 
 const NUMBER_FORMAT = new Intl.NumberFormat("pt-BR");
@@ -38,6 +45,62 @@ function roundName(round: RoundNumber) {
   return round === "1" ? "1º turno" : "2º turno";
 }
 
+function municipalityCount(count: number) {
+  return `${NUMBER_FORMAT.format(count)} ${
+    count === 1 ? "município" : "municípios"
+  }`;
+}
+
+function MunicipalRoundSummaryView({
+  round,
+  summary,
+}: {
+  round: RoundNumber;
+  summary: MunicipalRoundSummary;
+}) {
+  const otherLeaders = Object.entries(summary.leaders).filter(
+    ([candidate]) => candidate !== "13" && candidate !== "22",
+  );
+  const otherTotal = otherLeaders.reduce(
+    (total, [, count]) => total + count,
+    0,
+  );
+
+  return (
+    <div className="municipal-summary-round">
+      <h4>{roundName(round)}</h4>
+      <p>
+        Lula liderou em {municipalityCount(summary.leaders["13"] ?? 0)} e
+        Flávio Bolsonaro, em{" "}
+        {municipalityCount(summary.leaders["22"] ?? 0)}.
+      </p>
+      {otherTotal > 0 && (
+        <p>
+          {otherLeaders.length === 1
+            ? "Outro candidato liderou: "
+            : "Outros candidatos lideraram: "}
+          {otherLeaders
+            .map(
+              ([candidate, count]) =>
+                `${summary.leaderNames[candidate] ?? `Candidato ${candidate}`} em ${municipalityCount(count)}`,
+            )
+            .join("; ")}
+          .
+        </p>
+      )}
+      {summary.ties > 0 && (
+        <p>Houve empate em {municipalityCount(summary.ties)}.</p>
+      )}
+      {summary.unavailable > 0 && (
+        <p>
+          O resultado ficou indisponível em{" "}
+          {municipalityCount(summary.unavailable)}.
+        </p>
+      )}
+    </div>
+  );
+}
+
 function unavailable(round: RoundResult): round is Extract<
   RoundResult,
   { status: "unavailable" }
@@ -47,13 +110,21 @@ function unavailable(round: RoundResult): round is Extract<
 
 export const ResultsPanel = forwardRef<HTMLHeadingElement, ResultsPanelProps>(
   function ResultsPanel(
-    { placeCode, place, activeRound, onSelectExterior },
+    {
+      placeCode,
+      place,
+      activeRound,
+      onSelectExterior,
+      displayName,
+      municipalSummary,
+      officialResultUrl,
+    },
     headingRef,
   ) {
     const firstRound = place.rounds["1"];
     const secondRound = place.rounds["2"];
     const activeResult = place.rounds[activeRound];
-    const name = placeName(placeCode);
+    const name = displayName ?? placeName(placeCode);
 
     if (unavailable(firstRound) || unavailable(secondRound)) {
       const source = unavailable(activeResult)
@@ -162,6 +233,24 @@ export const ResultsPanel = forwardRef<HTMLHeadingElement, ResultsPanelProps>(
           </p>
         )}
 
+        {municipalSummary && (
+          <div className="panel-section municipal-summary">
+            <h3>Resumo dos municípios</h3>
+            <MunicipalRoundSummaryView
+              round="1"
+              summary={municipalSummary.perRound["1"]}
+            />
+            <MunicipalRoundSummaryView
+              round="2"
+              summary={municipalSummary.perRound["2"]}
+            />
+            <p className="swap-summary">
+              O líder mudou entre os turnos em{" "}
+              {municipalityCount(municipalSummary.swaps)}.
+            </p>
+          </div>
+        )}
+
         <div className="panel-section">
           <h3>Votos dos finalistas</h3>
           <div className="candidate-bars">
@@ -249,6 +338,17 @@ export const ResultsPanel = forwardRef<HTMLHeadingElement, ResultsPanelProps>(
             </a>{" "}
             como uma unidade.
           </p>
+        )}
+
+        {officialResultUrl && (
+          <a
+            className="official-result-link"
+            href={officialResultUrl}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Abrir resultado oficial deste município no TSE
+          </a>
         )}
 
         <a className="source-jump" href="#fontes">

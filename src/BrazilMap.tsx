@@ -50,8 +50,16 @@ function readGeometry(): Geometry {
   };
 }
 
-function Ring({ code, data }: { code: string; data: string }) {
-  const maskId = `state-ring-outside-${code}`;
+export function OutsideRing({
+  code,
+  data,
+  idPrefix = "state",
+}: {
+  code: string;
+  data: string;
+  idPrefix?: string;
+}) {
+  const maskId = `${idPrefix}-ring-outside-${code}`;
 
   return (
     <>
@@ -159,7 +167,7 @@ export function BrazilMap({
 
         {geometry.paths.map(({ code, data }) =>
           activeCodes.has(code) ? (
-            <Ring code={code} data={data} key={`ring-${code}`} />
+            <OutsideRing code={code} data={data} key={`ring-${code}`} />
           ) : null,
         )}
 

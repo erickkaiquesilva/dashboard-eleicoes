@@ -1,5 +1,6 @@
 import plans from "../data/government-plans.json";
 import { STATES, type ElectionSnapshot, type RoundNumber } from "./map-model";
+import type { MunicipalUfData } from "./municipal-model";
 
 const IBGE_URL =
   "https://servicodados.ibge.gov.br/api/v4/malhas/paises/BR?intrarregiao=UF&qualidade=minima&formato=image/svg+xml";
@@ -17,7 +18,21 @@ function roundName(round: RoundNumber) {
   return round === "1" ? "1º turno" : "2º turno";
 }
 
-export function Sources({ snapshot }: { snapshot: ElectionSnapshot }) {
+export function Sources({
+  snapshot,
+  municipalData,
+}: {
+  snapshot: ElectionSnapshot;
+  municipalData?: MunicipalUfData;
+}) {
+  const municipalResultFileCount = municipalData?.municipalities.reduce(
+    (count, municipality) =>
+      count +
+      Number(municipality.rounds["1"].status === "available") +
+      Number(municipality.rounds["2"].status === "available"),
+    0,
+  );
+
   return (
     <section className="content-section sources-section" id="fontes" aria-labelledby="sources-title">
       <div className="section-heading">
@@ -80,6 +95,56 @@ export function Sources({ snapshot }: { snapshot: ElectionSnapshot }) {
             consulta o IBGE.
           </p>
         </article>
+
+        {municipalData && (
+          <article>
+            <h3>Dados dos municípios de {municipalData.uf.toUpperCase()}</h3>
+            <p>
+              {new Intl.NumberFormat("pt-BR").format(
+                municipalResultFileCount ?? 0,
+              )}{" "}
+              arquivos de resultado lidos para{" "}
+              {new Intl.NumberFormat("pt-BR").format(
+                municipalData.municipalityCount,
+              )}{" "}
+              municípios desta UF, carregados somente ao abrir o estado.
+            </p>
+            <ul className="municipal-source-list">
+              {(["1", "2"] as const).map((round) => (
+                <li key={round}>
+                  <a
+                    href={municipalData.configs[round].url}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Configuração municipal do {roundName(round)} — TSE
+                  </a>
+                  <code>
+                    SHA-256 {municipalData.configs[round].sha256}
+                  </code>
+                </li>
+              ))}
+              <li>
+                <a
+                  href={municipalData.outline.url}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Malha municipal de {municipalData.uf.toUpperCase()} — IBGE
+                </a>
+                <code>SHA-256 {municipalData.outline.sha256}</code>
+              </li>
+            </ul>
+            <p>
+              Cada resultado municipal segue o endereço oficial do TSE:
+            </p>
+            <code className="url-pattern">
+              https://resultados.tse.jus.br/oficial/ele2026/
+              {"{eleição}"}/dados/{"{uf}"}/{"{uf}{código-tse}"}
+              -c0001-e00{"{eleição}"}-u.json
+            </code>
+          </article>
+        )}
 
         <article>
           <h3>Planos de governo</h3>
