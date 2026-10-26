@@ -6,6 +6,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
+    "ingest:municipal": "node scripts/tse/ingest-municipal.mjs",
     "ingest:tse": "node scripts/tse/ingest.mjs",
     "test": "node --test"
   },

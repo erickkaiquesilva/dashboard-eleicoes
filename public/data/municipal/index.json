@@ -1,0 +1,172 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-26T23:11:01.345Z",
+  "municipalityCount": 5571,
+  "resultFileCount": 11142,
+  "unavailable": [],
+  "missingOutlines": [],
+  "outlinesWithoutResults": [],
+  "configReconciliation": {
+    "identical": true,
+    "firstCount": 5571,
+    "secondCount": 5571,
+    "differences": []
+  },
+  "configs": {
+    "1": {
+      "url": "https://resultados.tse.jus.br/oficial/ele2026/6257/config/mun-e006257-cm.json",
+      "idg": "963009",
+      "dg": "02/10/2026",
+      "hg": "18:30:22",
+      "sha256": "dd8dcad73361a481b5110098ec812c1bda3f7acc12774fe6b0cf0be10ed2132b"
+    },
+    "2": {
+      "url": "https://resultados.tse.jus.br/oficial/ele2026/6258/config/mun-e006258-cm.json",
+      "idg": "3531598",
+      "dg": "15/10/2026",
+      "hg": "09:38:00",
+      "sha256": "e4a2f2d45bac325f486e1866973fd65ae86744896d0f19e791b0bbb58d86e839"
+    }
+  },
+  "sizes": {
+    "ac": {
+      "municipalities": 22,
+      "dataBytes": 33577,
+      "svgBytes": 14013
+    },
+    "al": {
+      "municipalities": 102,
+      "dataBytes": 150945,
+      "svgBytes": 15804
+    },
+    "ap": {
+      "municipalities": 16,
+      "dataBytes": 24356,
+      "svgBytes": 15292
+    },
+    "am": {
+      "municipalities": 62,
+      "dataBytes": 91778,
+      "svgBytes": 85180
+    },
+    "ba": {
+      "municipalities": 417,
+      "dataBytes": 611712,
+      "svgBytes": 116758
+    },
+    "ce": {
+      "municipalities": 184,
+      "dataBytes": 270201,
+      "svgBytes": 45437
+    },
+    "df": {
+      "municipalities": 1,
+      "dataBytes": 2349,
+      "svgBytes": 625
+    },
+    "es": {
+      "municipalities": 78,
+      "dataBytes": 116864,
+      "svgBytes": 18441
+    },
+    "go": {
+      "municipalities": 246,
+      "dataBytes": 366605,
+      "svgBytes": 84231
+    },
+    "ma": {
+      "municipalities": 217,
+      "dataBytes": 320500,
+      "svgBytes": 63998
+    },
+    "mt": {
+      "municipalities": 142,
+      "dataBytes": 212388,
+      "svgBytes": 95187
+    },
+    "ms": {
+      "municipalities": 79,
+      "dataBytes": 118241,
+      "svgBytes": 42057
+    },
+    "mg": {
+      "municipalities": 853,
+      "dataBytes": 1259649,
+      "svgBytes": 212505
+    },
+    "pa": {
+      "municipalities": 144,
+      "dataBytes": 213754,
+      "svgBytes": 93141
+    },
+    "pb": {
+      "municipalities": 223,
+      "dataBytes": 327194,
+      "svgBytes": 35888
+    },
+    "pr": {
+      "municipalities": 399,
+      "dataBytes": 593991,
+      "svgBytes": 87133
+    },
+    "pe": {
+      "municipalities": 185,
+      "dataBytes": 272073,
+      "svgBytes": 36055
+    },
+    "pi": {
+      "municipalities": 224,
+      "dataBytes": 330028,
+      "svgBytes": 54611
+    },
+    "rj": {
+      "municipalities": 92,
+      "dataBytes": 138108,
+      "svgBytes": 19777
+    },
+    "rn": {
+      "municipalities": 167,
+      "dataBytes": 245559,
+      "svgBytes": 25500
+    },
+    "rs": {
+      "municipalities": 497,
+      "dataBytes": 739637,
+      "svgBytes": 106322
+    },
+    "ro": {
+      "municipalities": 52,
+      "dataBytes": 78606,
+      "svgBytes": 27116
+    },
+    "rr": {
+      "municipalities": 15,
+      "dataBytes": 23096,
+      "svgBytes": 16477
+    },
+    "sc": {
+      "municipalities": 295,
+      "dataBytes": 439590,
+      "svgBytes": 55465
+    },
+    "sp": {
+      "municipalities": 645,
+      "dataBytes": 959790,
+      "svgBytes": 129144
+    },
+    "se": {
+      "municipalities": 75,
+      "dataBytes": 110965,
+      "svgBytes": 13028
+    },
+    "to": {
+      "municipalities": 139,
+      "dataBytes": 206012,
+      "svgBytes": 54182
+    }
+  },
+  "totals": {
+    "dataBytes": 8257568,
+    "svgBytes": 1563367
+  }
+}
