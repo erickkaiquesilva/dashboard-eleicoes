@@ -9,6 +9,7 @@ const PLACE_ORDER = [
     code: state.abbreviation.toLowerCase(),
     name: state.name,
   })),
+  { code: "zz", name: "Exterior" },
 ];
 const PLAN_READ_DATE = plans.readDate.split("-").reverse().join("/");
 
@@ -42,7 +43,7 @@ export function Sources({ snapshot }: { snapshot: ElectionSnapshot }) {
           {(["1", "2"] as const).map((round) => (
             <details key={round}>
               <summary>
-                Arquivos do {roundName(round)} · 28 lugares
+                Arquivos do {roundName(round)} · {PLACE_ORDER.length} lugares
               </summary>
               <ul className="file-list">
                 {PLACE_ORDER.map(({ code, name }) => {

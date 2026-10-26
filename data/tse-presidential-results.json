@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-26T19:45:00.787Z",
+  "generatedAt": "2026-10-26T22:43:47.083Z",
   "elections": {
     "1": {
       "id": "6257",
@@ -2424,6 +2424,92 @@
           "status": "available",
           "hundredths": 93,
           "percentagePoints": "0,93",
+          "direction": "subiu"
+        }
+      }
+    },
+    "zz": {
+      "rounds": {
+        "1": {
+          "status": "available",
+          "candidates": {
+            "13": {
+              "votes": 157387,
+              "percentage": "47,57",
+              "officialName": "LULA"
+            },
+            "22": {
+              "votes": 143900,
+              "percentage": "43,49",
+              "officialName": "FLAVIO BOLSONARO"
+            }
+          },
+          "validVotes": 330882,
+          "turnout": {
+            "votes": 341766,
+            "percentage": "37,31"
+          },
+          "leader": {
+            "status": "leader",
+            "candidateNumber": "13",
+            "officialName": "LULA",
+            "votes": 157387,
+            "percentage": "47,57"
+          },
+          "source": {
+            "url": "https://resultados.tse.jus.br/oficial/ele2026/6257/dados/zz/zz-c0001-e006257-u.json",
+            "idg": "3946982",
+            "dg": "24/10/2026",
+            "hg": "20:12:57",
+            "sha256": "9e8c762a6fdf924b46836cc246c8a32a41ec7f8f60ba2b1905cc8bd4a33dec03"
+          }
+        },
+        "2": {
+          "status": "available",
+          "candidates": {
+            "13": {
+              "votes": 200154,
+              "percentage": "53,86",
+              "officialName": "LULA"
+            },
+            "22": {
+              "votes": 171497,
+              "percentage": "46,14",
+              "officialName": "FLAVIO BOLSONARO"
+            }
+          },
+          "validVotes": 371651,
+          "turnout": {
+            "votes": 381443,
+            "percentage": "41,63"
+          },
+          "leader": {
+            "status": "leader",
+            "candidateNumber": "13",
+            "officialName": "LULA",
+            "votes": 200154,
+            "percentage": "53,86"
+          },
+          "source": {
+            "url": "https://resultados.tse.jus.br/oficial/ele2026/6258/dados/zz/zz-c0001-e006258-u.json",
+            "idg": "4242891",
+            "dg": "25/10/2026",
+            "hg": "23:26:57",
+            "sha256": "d8f54c294c61473d84d487e48d83fa0824e0e0b9788832f830440eb3a7646d81"
+          }
+        }
+      },
+      "variation": {
+        "13": {
+          "status": "available",
+          "hundredths": 629,
+          "percentagePoints": "6,29",
+          "direction": "subiu"
+        },
+        "22": {
+          "status": "available",
+          "hundredths": 265,
+          "percentagePoints": "2,65",
           "direction": "subiu"
         }
       }

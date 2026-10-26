@@ -115,6 +115,11 @@ a {
     inset 0 0 0 2px #ffdf00;
 }
 
+.place-controls {
+  display: flex;
+  gap: 8px;
+}
+
 .brazil-control {
   min-height: 44px;
   border: 1px solid #d2d2d7;
@@ -277,41 +282,52 @@ a {
   letter-spacing: 0.01em;
 }
 
-.table-scroll {
-  overflow-x: auto;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.9rem;
-}
-
-th,
-td {
-  padding: 12px 8px;
+.candidate-bars {
+  display: grid;
+  gap: 24px;
+  padding-top: 14px;
   border-top: 1px solid #d2d2d7;
-  text-align: left;
-  vertical-align: top;
 }
 
-thead th {
-  font-size: 0.78rem;
-  font-weight: 650;
+.candidate-bar-group {
+  display: grid;
+  gap: 15px;
 }
 
-tbody th {
-  min-width: 110px;
+.bar-label {
+  display: grid;
+  grid-template-columns: minmax(150px, 1fr) auto;
+  gap: 2px 12px;
+  align-items: baseline;
+  font-size: 0.84rem;
 }
 
-td strong,
-td span {
+.bar-label > span:last-child {
+  grid-column: 1 / -1;
+  font-size: 0.74rem;
+}
+
+.bar-track {
+  height: 12px;
+  margin-top: 7px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #d2d2d7;
+}
+
+.bar-fill {
   display: block;
+  height: 100%;
+  border-radius: inherit;
 }
 
-td span {
-  margin-top: 3px;
-  font-size: 0.78rem;
+.comparison-summary {
+  margin: 24px 0 0;
+  padding-top: 18px;
+  border-top: 1px solid #d2d2d7;
+  font-size: 0.9rem;
+  font-weight: 620;
+  line-height: 1.55;
 }
 
 .metric-list {
@@ -537,7 +553,7 @@ footer p {
   }
 
   .brazil-control {
-    width: 100%;
+    flex: 1;
   }
 
   .proposal-grid,

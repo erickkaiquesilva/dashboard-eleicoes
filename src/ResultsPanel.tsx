@@ -1,6 +1,10 @@
 import { forwardRef } from "react";
 
 import {
+  compareFinalistPercentages,
+  describeGapComparison,
+} from "./comparison.mjs";
+import {
   STATES,
   leaderLabel,
   type PlaceResult,
@@ -12,6 +16,7 @@ type ResultsPanelProps = {
   placeCode: string;
   place: PlaceResult;
   activeRound: RoundNumber;
+  onSelectExterior: () => void;
 };
 
 const NUMBER_FORMAT = new Intl.NumberFormat("pt-BR");
@@ -22,6 +27,7 @@ const CANDIDATES = [
 
 function placeName(code: string) {
   if (code === "br") return "Brasil";
+  if (code === "zz") return "Exterior";
   return (
     STATES.find((state) => state.abbreviation.toLowerCase() === code)?.name ??
     code.toUpperCase()
@@ -40,7 +46,10 @@ function unavailable(round: RoundResult): round is Extract<
 }
 
 export const ResultsPanel = forwardRef<HTMLHeadingElement, ResultsPanelProps>(
-  function ResultsPanel({ placeCode, place, activeRound }, headingRef) {
+  function ResultsPanel(
+    { placeCode, place, activeRound, onSelectExterior },
+    headingRef,
+  ) {
     const firstRound = place.rounds["1"];
     const secondRound = place.rounds["2"];
     const activeResult = place.rounds[activeRound];
@@ -89,6 +98,50 @@ export const ResultsPanel = forwardRef<HTMLHeadingElement, ResultsPanelProps>(
             .map((candidate) => candidate.officialName)
             .join(" e ")} no ${roundName(activeRound)}.`
         : `${leaderLabel(availableActiveResult)} no ${roundName(activeRound)}.`;
+    const comparison = compareFinalistPercentages(
+      {
+        "13": firstRound.candidates["13"].percentage,
+        "22": firstRound.candidates["22"].percentage,
+      },
+      {
+        "13": secondRound.candidates["13"].percentage,
+        "22": secondRound.candidates["22"].percentage,
+      },
+    );
+    const variations = CANDIDATES.map((candidate) => ({
+      ...candidate,
+      variation: place.variation[candidate.number],
+    }));
+    const variationSentence =
+      variations.every(
+        ({ variation }) => variation.status === "available",
+      ) &&
+      variations[0].variation.status === "available" &&
+      variations[1].variation.status === "available"
+        ? variations[0].variation.direction ===
+            variations[1].variation.direction &&
+          variations[0].variation.direction !== "ficou igual"
+          ? `Lula ${variations[0].variation.direction} ${variations[0].variation.percentagePoints.replace(
+              /^-/,
+              "",
+            )} pontos e Flávio Bolsonaro, ${variations[1].variation.percentagePoints.replace(
+              /^-/,
+              "",
+            )}.`
+          : variations
+              .map(({ name: candidateName, variation }) =>
+                variation.status === "available"
+                  ? variation.direction === "ficou igual"
+                    ? `${candidateName} ficou igual, em ${variation.percentagePoints} pontos`
+                    : `${candidateName} ${variation.direction} ${variation.percentagePoints.replace(
+                        /^-/,
+                        "",
+                      )} pontos`
+                  : "",
+              )
+              .join("; ") + "."
+        : "";
+    const gapSentence = describeGapComparison(comparison);
 
     return (
       <section
@@ -111,57 +164,53 @@ export const ResultsPanel = forwardRef<HTMLHeadingElement, ResultsPanelProps>(
 
         <div className="panel-section">
           <h3>Votos dos finalistas</h3>
-          <div className="table-scroll">
-            <table>
-              <thead>
-                <tr>
-                  <th scope="col">Candidato</th>
-                  <th scope="col">1º turno</th>
-                  <th scope="col">2º turno</th>
-                </tr>
-              </thead>
-              <tbody>
-                {CANDIDATES.map((candidate) => (
-                  <tr key={candidate.number}>
-                    <th scope="row">{candidate.name}</th>
-                    {(["1", "2"] as const).map((round) => {
-                      const result = place.rounds[round];
-                      if (result.status !== "available") return <td key={round}>—</td>;
-                      const value = result.candidates[candidate.number];
-                      return (
-                        <td key={round}>
-                          <strong>{value.percentage}%</strong>
-                          <span>{NUMBER_FORMAT.format(value.votes)} votos</span>
-                        </td>
-                      );
-                    })}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="candidate-bars">
+            {CANDIDATES.map((candidate) => (
+              <div className="candidate-bar-group" key={candidate.number}>
+                {(["1", "2"] as const).map((round) => {
+                  const result = place.rounds[round];
+                  if (result.status !== "available") return null;
+                  const value = result.candidates[candidate.number];
+                  const width = Number(value.percentage.replace(",", "."));
+                  return (
+                    <div
+                      className="bar-result"
+                      key={round}
+                      role="img"
+                      aria-label={`${candidate.name}, ${roundName(round)}: ${
+                        value.percentage
+                      }% dos votos válidos, ${NUMBER_FORMAT.format(
+                        value.votes,
+                      )} votos`}
+                    >
+                      <div className="bar-label">
+                        <span>
+                          {candidate.name} · {roundName(round)}
+                        </span>
+                        <strong>{value.percentage}%</strong>
+                        <span>{NUMBER_FORMAT.format(value.votes)} votos</span>
+                      </div>
+                      <div className="bar-track" aria-hidden="true">
+                        <span
+                          className="bar-fill"
+                          style={{
+                            width: `${width}%`,
+                            backgroundColor:
+                              candidate.number === "13"
+                                ? "#002776"
+                                : "#009C3B",
+                          }}
+                        />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            ))}
           </div>
-        </div>
-
-        <div className="panel-section">
-          <h3>Variação do 1º para o 2º turno</h3>
-          <ul className="metric-list">
-            {CANDIDATES.map((candidate) => {
-              const variation = place.variation[candidate.number];
-              return (
-                <li key={candidate.number}>
-                  <span>{candidate.name}</span>
-                  <strong>
-                    {variation.status === "available"
-                      ? `${variation.direction} ${variation.percentagePoints.replace(
-                          /^-/,
-                          "",
-                        )} p.p.`
-                      : "indisponível"}
-                  </strong>
-                </li>
-              );
-            })}
-          </ul>
+          <p className="comparison-summary">
+            {variationSentence} {gapSentence}
+          </p>
         </div>
 
         <div className="panel-section">
@@ -188,7 +237,17 @@ export const ResultsPanel = forwardRef<HTMLHeadingElement, ResultsPanelProps>(
         {placeCode === "br" && (
           <p className="national-note">
             O total do Brasil é o arquivo nacional oficial do TSE. O mapa não
-            desenha o voto do exterior como uma unidade.
+            desenha o{" "}
+            <a
+              href={`/exterior/${activeRound}`}
+              onClick={(event) => {
+                event.preventDefault();
+                onSelectExterior();
+              }}
+            >
+              voto do exterior
+            </a>{" "}
+            como uma unidade.
           </p>
         )}
 

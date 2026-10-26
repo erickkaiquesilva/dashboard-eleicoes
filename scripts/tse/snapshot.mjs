@@ -38,12 +38,15 @@ export const PLACES = [
   "sp",
   "se",
   "to",
+  "zz",
 ];
 
 export const ELECTIONS = [
   { id: "6257", round: "1", date: "2026-10-04" },
   { id: "6258", round: "2", date: "2026-10-25" },
 ];
+
+export const EXPECTED_FILE_COUNT = PLACES.length * ELECTIONS.length;
 
 export const FINALISTS = {
   "13": { displayName: "Lula" },
@@ -273,8 +276,10 @@ function derivePlace(firstRound, secondRound) {
 }
 
 export function buildSnapshot(records, generatedAt = new Date().toISOString()) {
-  if (!Array.isArray(records) || records.length !== PLACES.length * 2) {
-    throw new Error(`Esperados 56 arquivos, recebidos ${records?.length ?? 0}`);
+  if (!Array.isArray(records) || records.length !== EXPECTED_FILE_COUNT) {
+    throw new Error(
+      `Esperados ${EXPECTED_FILE_COUNT} arquivos, recebidos ${records?.length ?? 0}`,
+    );
   }
 
   const byKey = new Map(
@@ -348,7 +353,7 @@ export async function collectAll(fetchImpl = globalThis.fetch) {
   if (errors.length > 0) {
     throw new AggregateError(
       errors,
-      `${errors.length} dos 56 arquivos falharam; snapshot preservado`,
+      `${errors.length} dos ${EXPECTED_FILE_COUNT} arquivos falharam; snapshot preservado`,
     );
   }
 

@@ -10,8 +10,9 @@ const outputPath = fileURLToPath(
 
 try {
   const snapshot = await runIngest({ outputPath });
+  const placeCount = Object.keys(snapshot.places).length;
   console.log(
-    `Snapshot gravado em ${outputPath} (${Object.keys(snapshot.places).length} lugares, 56 fontes).`,
+    `Snapshot gravado em ${outputPath} (${placeCount} lugares, ${placeCount * 2} fontes).`,
   );
 } catch (error) {
   console.error(error.message);

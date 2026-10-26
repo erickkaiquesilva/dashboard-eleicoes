@@ -13,6 +13,9 @@ export function pathFor(route: PageRoute): string {
   if (route.place === "br") {
     return route.round === "2" ? "/" : "/brasil/1";
   }
+  if (route.place === "zz") {
+    return `/exterior/${route.round}`;
+  }
   return `/${route.place}/${route.round}`;
 }
 
@@ -42,6 +45,19 @@ export function parsePath(pathname: string): {
       route: { place: "br", round: "2" },
       canonicalPath: "/",
       needsReplace: true,
+    };
+  }
+
+  const exteriorMatch = pathname.match(/^\/exterior\/([12])$/);
+  if (exteriorMatch) {
+    const route = {
+      place: "zz",
+      round: exteriorMatch[1] as RoundNumber,
+    };
+    return {
+      route,
+      canonicalPath: pathFor(route),
+      needsReplace: false,
     };
   }
 

@@ -34,7 +34,9 @@ export default function App() {
   const [route, setRoute] = useState<PageRoute>(initial.route);
   const panelHeadingRef = useRef<HTMLHeadingElement>(null);
   const selectedState =
-    route.place === "br" ? null : route.place.toUpperCase();
+    route.place === "br" || route.place === "zz"
+      ? null
+      : route.place.toUpperCase();
   const selectedName = STATES.find(
     (state) => state.abbreviation === selectedState,
   )?.name;
@@ -61,6 +63,8 @@ export default function App() {
     const place =
       route.place === "br"
         ? "Brasil"
+        : route.place === "zz"
+          ? "Exterior"
         : STATES.find(
             (state) =>
               state.abbreviation.toLowerCase() === route.place,
@@ -114,16 +118,28 @@ export default function App() {
             2º turno
           </button>
         </div>
-        <button
-          className="brazil-control"
-          type="button"
-          aria-pressed={route.place === "br"}
-          onClick={() =>
-            navigate({ place: "br", round: route.round }, true)
-          }
-        >
-          Brasil
-        </button>
+        <div className="place-controls" role="group" aria-label="Lugar">
+          <button
+            className="brazil-control"
+            type="button"
+            aria-pressed={route.place === "br"}
+            onClick={() =>
+              navigate({ place: "br", round: route.round }, true)
+            }
+          >
+            Brasil
+          </button>
+          <button
+            className="brazil-control"
+            type="button"
+            aria-pressed={route.place === "zz"}
+            onClick={() =>
+              navigate({ place: "zz", round: route.round }, true)
+            }
+          >
+            Exterior
+          </button>
+        </div>
       </div>
 
       <section className="map-section" aria-labelledby="section-title">
@@ -167,7 +183,9 @@ export default function App() {
               <p className="selection-status" aria-live="polite">
                 {selectedName
                   ? `Unidade selecionada: ${selectedName}.`
-                  : "Brasil selecionado."}
+                  : route.place === "zz"
+                    ? "Exterior selecionado."
+                    : "Brasil selecionado."}
               </p>
             </div>
           </div>
@@ -177,6 +195,9 @@ export default function App() {
             placeCode={route.place}
             place={snapshot.places[route.place]}
             activeRound={route.round}
+            onSelectExterior={() =>
+              navigate({ place: "zz", round: route.round }, true)
+            }
           />
         </div>
       </section>

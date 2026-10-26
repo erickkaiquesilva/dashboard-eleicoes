@@ -5,6 +5,10 @@ import { join } from "node:path";
 import test from "node:test";
 
 import {
+  compareFinalistPercentages,
+  describeGapComparison,
+} from "../src/comparison.mjs";
+import {
   calculateVariation,
   determineLeader,
   formatHundredths,
@@ -166,7 +170,7 @@ test("campo local ausente marca somente o turno daquele lugar indisponível", ()
   });
 });
 
-test("coleta valida exatamente Brasil e 27 UFs nos dois turnos", async () => {
+test("coleta valida Brasil, 27 UFs e exterior nos dois turnos", async () => {
   const requested = [];
   const records = await collectAll(async (url) => {
     const identity = identifyRequest(url);
@@ -174,12 +178,13 @@ test("coleta valida exatamente Brasil e 27 UFs nos dois turnos", async () => {
     return responseFor(payloadFor(identity.place, identity.electionId));
   });
 
-  assert.equal(records.length, 56);
-  assert.equal(new Set(requested).size, 56);
-  assert.equal(PLACES.length, 28);
+  assert.equal(records.length, 58);
+  assert.equal(new Set(requested).size, 58);
+  assert.equal(PLACES.length, 29);
 
   const snapshot = buildSnapshot(records, "2026-10-26T00:00:00.000Z");
-  assert.equal(Object.keys(snapshot.places).length, 28);
+  assert.equal(Object.keys(snapshot.places).length, 29);
+  assert.equal(snapshot.places.zz.rounds["2"].status, "available");
   assert.equal(snapshot.places.br.rounds["1"].status, "available");
   assert.equal(
     snapshot.places.br.rounds["1"].leader.percentage,
@@ -208,11 +213,66 @@ test("qualquer arquivo inválido preserva o snapshot anterior", async () => {
           return responseFor(payload);
         },
       }),
-      /1 dos 56 arquivos falharam; snapshot preservado/,
+      /1 dos 58 arquivos falharam; snapshot preservado/,
     );
 
     assert.equal(await readFile(outputPath, "utf8"), original);
   } finally {
     await rm(directory, { recursive: true, force: true });
   }
+});
+
+test("diferença entre finalistas usa centésimos e detecta a direção", () => {
+  assert.deepEqual(
+    compareFinalistPercentages(
+      { "13": "38,20", "22": "51,93" },
+      { "13": "46,15", "22": "53,85" },
+    ),
+    {
+      first: {
+        leader: "22",
+        gapHundredths: 1373,
+        gap: "13,73",
+      },
+      second: {
+        leader: "22",
+        gapHundredths: 770,
+        gap: "7,70",
+      },
+      leaderSwapped: false,
+      gapDirection: "caiu",
+    },
+  );
+
+  assert.equal(
+    compareFinalistPercentages(
+      { "13": "50,00", "22": "50,00" },
+      { "13": "50,00", "22": "50,00" },
+    ).gapDirection,
+    "ficou igual",
+  );
+  assert.equal(
+    compareFinalistPercentages(
+      { "13": "51,00", "22": "49,00" },
+      { "13": "54,00", "22": "46,00" },
+    ).gapDirection,
+    "aumentou",
+  );
+});
+
+test("troca de líder entre os finalistas é explícita", () => {
+  const comparison = compareFinalistPercentages(
+    { "13": "55,00", "22": "45,00" },
+    { "13": "48,00", "22": "52,00" },
+  );
+
+  assert.equal(comparison.leaderSwapped, true);
+  assert.equal(comparison.first.leader, "13");
+  assert.equal(comparison.first.gap, "10,00");
+  assert.equal(comparison.second.leader, "22");
+  assert.equal(comparison.second.gap, "4,00");
+  assert.equal(
+    describeGapComparison(comparison),
+    "Lula estava à frente por 10,00 pontos no 1º turno; no 2º, Flávio Bolsonaro passou a liderar por 4,00 pontos.",
+  );
 });
