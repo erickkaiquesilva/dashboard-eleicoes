@@ -1,6 +1,11 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 
 import ibgeSvg from "./assets/ibge-br-ufs.svg?raw";
+import {
+  localBoxToViewBox,
+  parseScaleTransform,
+  type ViewBox,
+} from "./map-camera.mjs";
 import {
   STATES,
   inkFor,
@@ -14,7 +19,11 @@ type BrazilMapProps = {
   snapshot: ElectionSnapshot;
   round: RoundNumber;
   selectedState: string | null;
+  viewBox?: string;
+  interactive?: boolean;
+  fadeSelectedFill?: boolean;
   onSelectState: (abbreviation: string) => void;
+  onStateBoxes?: (boxes: Record<string, ViewBox>) => void;
 };
 
 type Geometry = {
@@ -23,7 +32,7 @@ type Geometry = {
   paths: Array<{ code: string; data: string }>;
 };
 
-function readGeometry(): Geometry {
+export function readGeometry(): Geometry {
   const document = new DOMParser().parseFromString(ibgeSvg, "image/svg+xml");
   const svg = document.documentElement;
   const group = svg.querySelector("g");
@@ -111,13 +120,33 @@ export function OutsideRing({
   );
 }
 
+function measureStateBoxes(svg: SVGSVGElement, transform: string) {
+  const scale = parseScaleTransform(transform);
+  const boxes: Record<string, ViewBox> = {};
+
+  for (const path of svg.querySelectorAll<SVGGraphicsElement>(
+    "path[data-state]",
+  )) {
+    const abbreviation = path.getAttribute("data-state");
+    if (!abbreviation) continue;
+    boxes[abbreviation] = localBoxToViewBox(path.getBBox(), scale);
+  }
+
+  return boxes;
+}
+
 export function BrazilMap({
   snapshot,
   round,
   selectedState,
+  viewBox,
+  interactive = true,
+  fadeSelectedFill = false,
   onSelectState,
+  onStateBoxes,
 }: BrazilMapProps) {
   const geometry = useMemo(readGeometry, []);
+  const measuredRef = useRef(false);
   const [focusedState, setFocusedState] = useState<string | null>(null);
   const stateByCode = useMemo(
     () => new Map(STATES.map((state) => [state.code, state])),
@@ -135,10 +164,16 @@ export function BrazilMap({
 
   return (
     <svg
-      className="map-svg"
-      viewBox={geometry.viewBox}
+      className="map-svg brazil-map-svg"
+      viewBox={viewBox ?? geometry.viewBox}
       role="group"
       aria-labelledby="map-title map-instructions"
+      aria-hidden={!interactive}
+      ref={(node) => {
+        if (!node || !onStateBoxes || measuredRef.current) return;
+        measuredRef.current = true;
+        onStateBoxes(measureStateBoxes(node, geometry.transform));
+      }}
     >
       <title id="map-title">Mapa eleitoral do Brasil</title>
       <desc id="map-instructions">
@@ -151,12 +186,18 @@ export function BrazilMap({
           if (!state) return null;
           const result = resultFor(snapshot, state.abbreviation, round);
 
+          const isSelected = selectedState === state.abbreviation;
+          const hideFill = fadeSelectedFill && isSelected;
+
           return (
             <path
               aria-hidden="true"
               key={`shape-${code}`}
+              className={
+                selectedState && !isSelected ? "state-context" : "state-fill"
+              }
               d={data}
-              fill={inkFor(result) ?? "transparent"}
+              fill={hideFill ? "transparent" : inkFor(result) ?? "transparent"}
               stroke="#F5F5F7"
               strokeWidth="1"
               vectorEffect="non-scaling-stroke"
@@ -165,11 +206,12 @@ export function BrazilMap({
           );
         })}
 
-        {geometry.paths.map(({ code, data }) =>
-          activeCodes.has(code) ? (
-            <OutsideRing code={code} data={data} key={`ring-${code}`} />
-          ) : null,
-        )}
+        {!fadeSelectedFill &&
+          geometry.paths.map(({ code, data }) =>
+            activeCodes.has(code) ? (
+              <OutsideRing code={code} data={data} key={`ring-${code}`} />
+            ) : null,
+          )}
 
         {geometry.paths.map(({ code, data }) => {
           const state = stateByCode.get(code);
@@ -182,23 +224,35 @@ export function BrazilMap({
               key={`button-${code}`}
               data-state={state.abbreviation}
               d={data}
-              role="button"
-              tabIndex={0}
-              aria-pressed={selectedState === state.abbreviation}
-              aria-label={`${state.name}: ${leaderLabel(result)} no ${roundName}`}
+              role={interactive ? "button" : undefined}
+              tabIndex={interactive ? 0 : -1}
+              aria-pressed={
+                interactive ? selectedState === state.abbreviation : undefined
+              }
+              aria-label={
+                interactive
+                  ? `${state.name}: ${leaderLabel(result)} no ${roundName}`
+                  : undefined
+              }
               fill="#F5F5F7"
               fillOpacity="0.001"
               stroke="transparent"
               strokeWidth="12"
               vectorEffect="non-scaling-stroke"
-              onClick={() => onSelectState(state.abbreviation)}
-              onFocus={() => setFocusedState(state.abbreviation)}
+              pointerEvents={interactive ? "auto" : "none"}
+              onClick={() => {
+                if (interactive) onSelectState(state.abbreviation);
+              }}
+              onFocus={() => {
+                if (interactive) setFocusedState(state.abbreviation);
+              }}
               onBlur={() =>
                 setFocusedState((current) =>
                   current === state.abbreviation ? null : current,
                 )
               }
               onKeyDown={(event) => {
+                if (!interactive) return;
                 if (event.key === "Enter" || event.key === " ") {
                   event.preventDefault();
                   onSelectState(state.abbreviation);

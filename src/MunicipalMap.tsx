@@ -14,6 +14,8 @@ type MunicipalMapProps = {
   round: RoundNumber;
   selectedMunicipality: MunicipalityResult | null;
   stateName: string;
+  viewBox?: string;
+  visible?: boolean;
   onSelectMunicipality: (municipality: MunicipalityResult) => void;
 };
 
@@ -23,6 +25,8 @@ export function MunicipalMap({
   round,
   selectedMunicipality,
   stateName,
+  viewBox,
+  visible = true,
   onSelectMunicipality,
 }: MunicipalMapProps) {
   const municipalityByCode = useMemo(
@@ -39,10 +43,15 @@ export function MunicipalMap({
 
   return (
     <svg
-      className="map-svg municipal-map-svg"
-      viewBox={geometry.viewBox}
+      className={
+        visible
+          ? "map-svg municipal-map-svg is-visible"
+          : "map-svg municipal-map-svg"
+      }
+      viewBox={viewBox ?? geometry.viewBox}
       role="img"
       aria-labelledby="municipal-map-title municipal-map-description"
+      aria-hidden={!visible}
     >
       <title id="municipal-map-title">
         Mapa eleitoral dos municípios de {stateName}

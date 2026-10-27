@@ -2,7 +2,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 
 import plans from "../data/government-plans.json";
 import snapshotJson from "../data/tse-presidential-results.json";
-import { BrazilMap } from "./BrazilMap";
+import { BrazilMap, readGeometry } from "./BrazilMap";
+import type { ViewBox } from "./map-camera.mjs";
 import { MunicipalMap } from "./MunicipalMap";
 import { MunicipalitySearch } from "./MunicipalitySearch";
 import {
@@ -11,6 +12,7 @@ import {
   hasOtherLeader,
   type ElectionSnapshot,
 } from "./map-model";
+import { useMapCamera } from "./useMapCamera";
 import {
   displayMunicipalityName,
   hasOtherMunicipalLeader,
@@ -40,6 +42,11 @@ function LegendItem({ color, children }: { color: string; children: string }) {
 export default function App() {
   const initial = parsePath(window.location.pathname);
   const [route, setRoute] = useState<PageRoute>(initial.route);
+  const [stateBoxes, setStateBoxes] = useState<Record<
+    string,
+    ViewBox
+  > | null>(null);
+  const nationalViewBox = useMemo(() => readGeometry().viewBox, []);
   const panelHeadingRef = useRef<HTMLHeadingElement>(null);
   const selectedState =
     route.place === "br" || route.place === "zz"
@@ -74,6 +81,12 @@ export default function App() {
         : undefined,
     [municipalData],
   );
+  const camera = useMapCamera(nationalViewBox, selectedState, stateBoxes);
+  const municipalReady =
+    municipalLoad.status === "success" &&
+    Boolean(municipalData && municipalGeometry && selectedName);
+  const municipalVisible =
+    municipalReady && (camera.progress >= 0.52 || !camera.isAnimating);
 
   useEffect(() => {
     const current = parsePath(window.location.pathname);
@@ -266,7 +279,71 @@ export default function App() {
               </p>
             </div>
 
-            {municipalData && (
+            <div
+              className="map-frame"
+              aria-busy={camera.isAnimating || municipalLoad.status === "loading"}
+            >
+              <div className="map-stack">
+                <BrazilMap
+                  snapshot={snapshot}
+                  round={route.round}
+                  selectedState={selectedState}
+                  viewBox={camera.viewBox}
+                  interactive={!municipalVisible}
+                  fadeSelectedFill={municipalVisible}
+                  onStateBoxes={setStateBoxes}
+                  onSelectState={(abbreviation) =>
+                    navigate(
+                      {
+                        place: abbreviation.toLowerCase(),
+                        round: route.round,
+                      },
+                      true,
+                    )
+                  }
+                />
+                {municipalReady && municipalData && municipalGeometry && selectedName && (
+                  <MunicipalMap
+                    data={municipalData}
+                    geometry={municipalGeometry}
+                    round={route.round}
+                    selectedMunicipality={selectedMunicipality}
+                    stateName={selectedName}
+                    viewBox={camera.viewBox}
+                    visible={municipalVisible}
+                    onSelectMunicipality={(municipality) =>
+                      navigate(
+                        {
+                          ...route,
+                          municipality: municipality.slug,
+                        },
+                        true,
+                      )
+                    }
+                  />
+                )}
+              </div>
+
+              {selectedName && municipalLoad.status === "loading" && (
+                <div className="map-load-state map-load-overlay" role="status">
+                  <span className="loading-indicator" aria-hidden="true" />
+                  Carregando os municípios de {selectedName}…
+                </div>
+              )}
+              {selectedName && municipalLoad.status === "error" && (
+                <div
+                  className="map-load-state map-load-error map-load-overlay"
+                  role="alert"
+                >
+                  <strong>Não foi possível carregar o mapa municipal.</strong>
+                  <span>
+                    O total de {selectedName} continua disponível no painel.
+                  </span>
+                </div>
+              )}
+            </div>
+
+            {municipalVisible && municipalData && (
               <MunicipalitySearch
                 municipalities={municipalData.municipalities}
                 selectedMunicipality={selectedMunicipality}
@@ -281,56 +358,6 @@ export default function App() {
                 }
               />
             )}
-
-            <div className="map-frame">
-              {selectedName ? (
-                municipalLoad.status === "loading" ? (
-                  <div className="map-load-state" role="status">
-                    <span className="loading-indicator" aria-hidden="true" />
-                    Carregando os municípios de {selectedName}…
-                  </div>
-                ) : municipalLoad.status === "error" ? (
-                  <div className="map-load-state map-load-error" role="alert">
-                    <strong>Não foi possível carregar o mapa municipal.</strong>
-                    <span>
-                      O total de {selectedName} continua disponível no painel.
-                    </span>
-                  </div>
-                ) : municipalData && municipalGeometry ? (
-                  <MunicipalMap
-                    data={municipalData}
-                    geometry={municipalGeometry}
-                    round={route.round}
-                    selectedMunicipality={selectedMunicipality}
-                    stateName={selectedName}
-                    onSelectMunicipality={(municipality) =>
-                      navigate(
-                        {
-                          ...route,
-                          municipality: municipality.slug,
-                        },
-                        true,
-                      )
-                    }
-                  />
-                ) : null
-              ) : (
-                <BrazilMap
-                  snapshot={snapshot}
-                  round={route.round}
-                  selectedState={selectedState}
-                  onSelectState={(abbreviation) =>
-                    navigate(
-                      {
-                        place: abbreviation.toLowerCase(),
-                        round: route.round,
-                      },
-                      true,
-                    )
-                  }
-                />
-              )}
-            </div>
 
             <div className="map-key" aria-label="Legenda do mapa">
               <h3>Legenda</h3>

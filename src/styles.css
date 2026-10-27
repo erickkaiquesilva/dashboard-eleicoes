@@ -199,8 +199,14 @@ a {
 }
 
 .map-frame {
+  position: relative;
   min-width: 0;
+  overflow: hidden;
   padding: 24px 18px 18px;
+}
+
+.map-stack {
+  position: relative;
 }
 
 .map-load-state {
@@ -211,6 +217,17 @@ a {
   gap: 12px;
   text-align: center;
   font-weight: 650;
+}
+
+.map-load-overlay {
+  position: absolute;
+  inset: auto 18px 24px;
+  min-height: 0;
+  padding: 12px 16px;
+  border: 1px solid #d2d2d7;
+  border-radius: 14px;
+  background: rgb(245 245 247 / 92%);
+  box-shadow: 0 10px 30px rgb(0 0 0 / 8%);
 }
 
 .map-load-error {
@@ -242,7 +259,31 @@ a {
   display: block;
   width: 100%;
   height: auto;
-  overflow: visible;
+  overflow: hidden;
+}
+
+.municipal-map-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.municipal-map-svg.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.state-fill,
+.state-context {
+  transition: fill 280ms ease, opacity 500ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.state-context {
+  opacity: 0.28;
 }
 
 .map-svg [role="button"] {
@@ -786,5 +827,11 @@ footer p {
 
   .loading-indicator {
     animation: none;
+  }
+
+  .municipal-map-svg,
+  .state-fill,
+  .state-context {
+    transition: none;
   }
 }
